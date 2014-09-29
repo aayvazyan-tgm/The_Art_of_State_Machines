@@ -1,0 +1,162 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#ifdef _WIN32
+#include <windows.h>
+#else
+#include <unistd.h>
+#include <winbase.h>
+#define Sleep(x) usleep((x)*1000)
+#endif
+
+typedef enum _TrafficLightState { Red, RedYellow, Yellow, Green, BlinkingGreen, BlinkingYellow} TrafficLightState;
+typedef enum _Command { Standby,Wait,Idle,Reset,Go,Stop,PrepareToStop,Error} Command;
+#define SLEEP_TIME 1000
+#define NEXTSTATE nextState(&state, &command)
+
+void trafficLight(TrafficLightState* state, Command* command, char* currentTrafficLightColor) {
+    switch(*state) {
+        case Red:
+            if(*currentTrafficLightColor!="RedYellow")*currentTrafficLightColor="RedYellow";
+            if(*command==Wait){
+
+                puts("Red: Wait");
+                _flushall();
+                Sleep(SLEEP_TIME);
+
+                NEXTSTATE;
+            }
+            if(*command==Reset){
+
+                puts("Red: Reset");
+                _flushall();
+                Sleep(SLEEP_TIME);
+
+                NEXTSTATE;
+            }
+            break;
+        case Green:
+            if(*currentTrafficLightColor!="BlinkingGreen")*currentTrafficLightColor="BlinkingGreen";
+            if(*command==Go){
+
+                puts("Green: Go");
+                _flushall();
+                Sleep(SLEEP_TIME);
+
+                NEXTSTATE;
+            }
+            break;
+        case RedYellow:
+            if(*currentTrafficLightColor!="Green")*currentTrafficLightColor="Green";
+            if(*command==Standby){
+
+                puts("RedYellow: Standby");
+                _flushall();
+                Sleep(SLEEP_TIME);
+
+                NEXTSTATE;
+            }
+            break;
+        case Yellow:
+            if(*currentTrafficLightColor!="Red")*currentTrafficLightColor="Red";
+            if(*command==Stop){
+
+                puts("Yellow: Stop");
+                _flushall();
+                Sleep(SLEEP_TIME);
+
+                NEXTSTATE;
+            }
+            break;
+        case BlinkingGreen:
+            if(*currentTrafficLightColor!="Yellow")*currentTrafficLightColor="Yellow";
+            if(*command==PrepareToStop){
+
+                puts("BlinkingGreen: PrepareToStop");
+                _flushall();
+                Sleep(SLEEP_TIME);
+
+                NEXTSTATE;
+            }
+            break;
+        case BlinkingYellow:
+            if(*currentTrafficLightColor!="Red")*currentTrafficLightColor="Red";
+            if(*command==Idle){
+                
+                puts("BlinkingYellow: Idle");
+                _flushall();
+                Sleep(SLEEP_TIME);
+
+                NEXTSTATE;
+            }
+            break;
+        default:
+            if(*currentTrafficLightColor!="BlinkingYellow")*currentTrafficLightColor="BlinkingYellow";
+            puts("Invalid state error!");
+            _flushall();
+
+            *state=BlinkingYellow;
+            *command=Error;
+    }
+}
+
+void nextState(TrafficLightState* state, Command *command){
+    switch(*state) {
+        case Red:
+            if(*command==Wait){
+                *state=RedYellow;
+                *command=Standby;
+            }
+            if(*command==Reset){
+                *state=RedYellow;
+                *command=Standby;
+            }
+            break;
+        case Green:
+            if(*command==Go){
+                *state=BlinkingGreen;
+                *command=PrepareToStop;
+            }
+            break;
+        case RedYellow:
+            if(*command==Standby){
+                *state=Green;
+                *command=Go;
+            }
+            break;
+        case Yellow:
+            if(*command==Stop){
+                *state=Red;
+                *command=Wait;
+            }
+            break;
+        case BlinkingGreen:
+            if(*command==PrepareToStop){
+                *state=Yellow;
+                *command=Stop;
+            }
+            break;
+        case BlinkingYellow:
+            if(*command==Idle){
+                *state=Red;
+                *command=Reset;
+            }
+            break;
+        default:
+            *state=BlinkingYellow;
+            *command=Error;
+    }
+}
+
+int main(void) {
+    int x=0;
+    TrafficLightState tls=BlinkingYellow;
+    Command com=Idle;
+    char* currentColor="off";
+    while(x<20){
+        trafficLight(&tls, &com, currentColor);
+        x++;
+    }
+    return EXIT_SUCCESS;
+}
+
