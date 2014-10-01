@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "TrafficLightState.h"
 #include "Commands.h"
+#include "../functions/outputTrafficLightColor.h"
 
 #ifdef _WIN32
 #include <windows.h>
@@ -20,44 +21,68 @@ void trafficLight(TrafficLightState* state, Command* command, char* currentTraff
     switch(*command) {
         case Standby:
             if(*state==RedYellow){
-                strcpy(currentTrafficLightColor, "Red");
+                strcpy(currentTrafficLightColor, "RedYellow");
+                outTrC(RedYellow);
+                Sleep(SLEEP_TIME);
                 NEXTSTATE;
             }
+            break;
         case Wait:
             if(*state==Red){
                 strcpy(currentTrafficLightColor, "Red");
+                outTrC(Red);
+                Sleep(SLEEP_TIME);
                 NEXTSTATE;
             }
+            break;
         case Idle:
             if(*state==BlinkingYellow){
-                strcpy(currentTrafficLightColor, "Off");
+                strcpy(currentTrafficLightColor, "BlinkingYellow");
+                outTrC(BlinkingYellow);
+                Sleep(SLEEP_TIME);
                 NEXTSTATE;
             }
+            break;
         case Reset:
             if(*state==Red){
-                strcpy(currentTrafficLightColor, "Off");
+                strcpy(currentTrafficLightColor, "Red");
+                outTrC(Red);
+                Sleep(SLEEP_TIME);
                 NEXTSTATE;
             }
+            break;
         case Go:
             if(*state==Green){
-                strcpy(currentTrafficLightColor, "Off");
+                strcpy(currentTrafficLightColor, "Green");
+                outTrC(Green);
+                Sleep(SLEEP_TIME);
                 NEXTSTATE;
             }
+            break;
         case Stop:
             if(*state==Yellow){
-                strcpy(currentTrafficLightColor, "Off");
+                strcpy(currentTrafficLightColor, "Yellow");
+                outTrC(Yellow);
+                Sleep(SLEEP_TIME);
                 NEXTSTATE;
             }
+            break;
         case PrepareToStop:
             if(*state==BlinkingGreen){
-                strcpy(currentTrafficLightColor, "Off");
+                strcpy(currentTrafficLightColor, "BlinkingGreen");
+                outTrC(BlinkingGreen);
+                Sleep(SLEEP_TIME);
                 NEXTSTATE;
             }
+            break;
         case Error:
             if(*state==BlinkingYellow){
-                strcpy(currentTrafficLightColor, "Off");
+                strcpy(currentTrafficLightColor, "BlinkingYellow");
+                outTrC(BlinkingYellow);
+                Sleep(SLEEP_TIME);
                 NEXTSTATE;
             }
+            break;
         default:
             break;
     }
