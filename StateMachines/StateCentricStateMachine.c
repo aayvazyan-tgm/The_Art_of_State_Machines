@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
-//#include colors.h
+#include "TrafficLightState.h"
+#include "Commands.h"
 
 #ifdef _WIN32
 #include <windows.h>
@@ -10,8 +11,6 @@
 #endif
 
 
-typedef enum _TrafficLightState { Red, RedYellow, Yellow, Green, BlinkingGreen, BlinkingYellow} TrafficLightState;
-typedef enum _Command { Standby,Wait,Idle,Reset,Go,Stop,PrepareToStop,Error} Command;
 #define SLEEP_TIME 1000
 
 void trafficLight(TrafficLightState* state, Command *command) {

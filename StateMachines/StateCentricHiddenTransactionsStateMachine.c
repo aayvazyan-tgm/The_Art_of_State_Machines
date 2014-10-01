@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "TrafficLightState.h"
+#include "Commands.h"
 
 #ifdef _WIN32
 #include <windows.h>
@@ -8,8 +10,6 @@
 #define Sleep(x) usleep((x)*1000)
 #endif
 
-typedef enum _TrafficLightState { Red, RedYellow, Yellow, Green, BlinkingGreen, BlinkingYellow} TrafficLightState;
-typedef enum _Command { Standby,Wait,Idle,Reset,Go,Stop,PrepareToStop,Error} Command;
 #define SLEEP_TIME 1000
 #define NEXTSTATE nextState(state, command)
 
