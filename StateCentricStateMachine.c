@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include colours.h
 
 #ifdef _WIN32
 #include <windows.h>
@@ -9,10 +10,11 @@
 #define Sleep(x) usleep((x)*1000)
 #endif
 
+
 typedef enum _TrafficLightState { Red, RedYellow, Yellow, Green, BlinkingGreen, BlinkingYellow} TrafficLightState;
 typedef enum _Command { Standby,Wait,Idle,Reset,Go,Stop,PrepareToStop,Error} Command;
 #define SLEEP_TIME 1000
-    
+
 void trafficLight(TrafficLightState* state, Command *command) {
     switch(*state) {
         case Red:
@@ -75,6 +77,13 @@ void trafficLight(TrafficLightState* state, Command *command) {
                 *state=Red;
                 *command=Reset;
             }
+            if(*command==Error){
+                puts("BlinkingYellow: Error");
+                _flushall();
+                Sleep(SLEEP_TIME);
+                *state=Red;
+                *command=Reset;
+            }
             break;
         default:
             puts("Invalid state error!");
@@ -83,7 +92,7 @@ void trafficLight(TrafficLightState* state, Command *command) {
             *command=Error;
     }
 }
- 
+
 int main(void) {
 	int x=0;
     TrafficLightState tls=BlinkingYellow;

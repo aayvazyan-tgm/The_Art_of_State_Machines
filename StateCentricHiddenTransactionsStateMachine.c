@@ -98,6 +98,13 @@ void trafficLight(TrafficLightState* state, Command* command, char* currentTraff
 
                 NEXTSTATE;
             }
+            if(*command=Error){
+                puts("BlinkingYellow: Error");
+                _flushall();
+                Sleep(SLEEP_TIME);
+
+                NEXTSTATE;
+            }
             break;
         default:
             if(strcmp(currentTrafficLightColor,"BlinkingYellow")!=0){
@@ -149,6 +156,10 @@ void nextState(TrafficLightState* state, Command *command) {
             break;
         case BlinkingYellow:
             if(*command==Idle){
+                *state=Red;
+                *command=Reset;
+            }
+            if(*command==Error){
                 *state=Red;
                 *command=Reset;
             }
