@@ -5,7 +5,6 @@
 #include <windows.h>
 #else
 #include <unistd.h>
-#include <winbase.h>
 #define Sleep(x) usleep((x)*1000)
 #endif
 
@@ -98,7 +97,7 @@ void trafficLight(TrafficLightState* state, Command* command, char* currentTraff
 
                 NEXTSTATE;
             }
-            if(*command=Error){
+            if(*command==Error){
                 puts("BlinkingYellow: Error");
                 _flushall();
                 Sleep(SLEEP_TIME);
