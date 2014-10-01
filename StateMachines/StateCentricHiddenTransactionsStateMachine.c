@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "TrafficLightState.h"
 #include "Commands.h"
+#include "../functions/outputTrafficLightColor.h"
 
 #ifdef _WIN32
 #include <windows.h>
@@ -18,8 +19,10 @@ void nextState(TrafficLightState* state, Command *command);
 void trafficLight(TrafficLightState* state, Command* command, char* currentTrafficLightColor) {
     switch(*state) {
         case Red:
-            if(strcmp(currentTrafficLightColor,"Red")!=0)
+            if(strcmp(currentTrafficLightColor,"Red")!=0) {
                 strcpy(currentTrafficLightColor, "Red");
+                outTrC(Red);
+            }
             if(*command==Wait){
 
                 puts("Red: Wait");
@@ -38,8 +41,10 @@ void trafficLight(TrafficLightState* state, Command* command, char* currentTraff
             }
             break;
         case Green:
-            if(strcmp(currentTrafficLightColor,"Green")!=0)
+            if(strcmp(currentTrafficLightColor,"Green")!=0) {
                 strcpy(currentTrafficLightColor, "Green");
+                outTrC(Green);
+            }
             if(*command==Go){
 
                 puts("Green: Go");
@@ -50,8 +55,10 @@ void trafficLight(TrafficLightState* state, Command* command, char* currentTraff
             }
             break;
         case RedYellow:
-            if(strcmp(currentTrafficLightColor,"RedYellow")!=0)
+            if(strcmp(currentTrafficLightColor,"RedYellow")!=0) {
                 strcpy(currentTrafficLightColor, "RedYellow");
+                outTrC(RedYellow);
+            }
             if(*command==Standby){
 
                 puts("RedYellow: Standby");
@@ -62,8 +69,10 @@ void trafficLight(TrafficLightState* state, Command* command, char* currentTraff
             }
             break;
         case Yellow:
-            if(strcmp(currentTrafficLightColor,"Yellow")!=0)
+            if(strcmp(currentTrafficLightColor,"Yellow")!=0) {
                 strcpy(currentTrafficLightColor, "Yellow");
+                outTrC(Yellow);
+            }
             if(*command==Stop){
 
                 puts("Yellow: Stop");
@@ -74,8 +83,10 @@ void trafficLight(TrafficLightState* state, Command* command, char* currentTraff
             }
             break;
         case BlinkingGreen:
-            if(strcmp(currentTrafficLightColor,"BlinkingGreen")!=0)
+            if(strcmp(currentTrafficLightColor,"BlinkingGreen")!=0) {
                 strcpy(currentTrafficLightColor, "BlinkingGreen");
+                outTrC(BlinkingGreen);
+            }
             if(*command==PrepareToStop){
 
                 puts("BlinkingGreen: PrepareToStop");
@@ -88,6 +99,7 @@ void trafficLight(TrafficLightState* state, Command* command, char* currentTraff
         case BlinkingYellow:
             if(strcmp(currentTrafficLightColor,"BlinkingYellow")!=0) {
                 strcpy(currentTrafficLightColor, "BlinkingYellow");
+                outTrC(BlinkingYellow);
             }
             if(*command==Idle){
                 
@@ -108,6 +120,7 @@ void trafficLight(TrafficLightState* state, Command* command, char* currentTraff
         default:
             if(strcmp(currentTrafficLightColor,"BlinkingYellow")!=0){
                 strcpy(currentTrafficLightColor, "BlinkingYellow");
+                outTrC(BlinkingYellow);
             }
             puts("Invalid state error!");
             _flushall();
