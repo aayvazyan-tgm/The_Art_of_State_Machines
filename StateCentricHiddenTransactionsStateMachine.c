@@ -14,10 +14,13 @@ typedef enum _Command { Standby,Wait,Idle,Reset,Go,Stop,PrepareToStop,Error} Com
 #define SLEEP_TIME 1000
 #define NEXTSTATE nextState(&state, &command)
 
+void nextState(TrafficLightState* state, Command *command);
+
 void trafficLight(TrafficLightState* state, Command* command, char* currentTrafficLightColor) {
     switch(*state) {
         case Red:
-            if(*currentTrafficLightColor!="RedYellow")*currentTrafficLightColor="RedYellow";
+            if(!strcmp(currentTrafficLightColor,"RedYellow"))
+                *currentTrafficLightColor="RedYellow";
             if(*command==Wait){
 
                 puts("Red: Wait");
@@ -36,7 +39,8 @@ void trafficLight(TrafficLightState* state, Command* command, char* currentTraff
             }
             break;
         case Green:
-            if(*currentTrafficLightColor!="BlinkingGreen")*currentTrafficLightColor="BlinkingGreen";
+            if(!strcmp(currentTrafficLightColor,"BlinkingGreen"))
+                *currentTrafficLightColor="BlinkingGreen";
             if(*command==Go){
 
                 puts("Green: Go");
@@ -47,7 +51,8 @@ void trafficLight(TrafficLightState* state, Command* command, char* currentTraff
             }
             break;
         case RedYellow:
-            if(*currentTrafficLightColor!="Green")*currentTrafficLightColor="Green";
+            if(!strcmp(currentTrafficLightColor,"Green"))
+                *currentTrafficLightColor="Green";
             if(*command==Standby){
 
                 puts("RedYellow: Standby");
@@ -58,7 +63,8 @@ void trafficLight(TrafficLightState* state, Command* command, char* currentTraff
             }
             break;
         case Yellow:
-            if(*currentTrafficLightColor!="Red")*currentTrafficLightColor="Red";
+            if(!strcmp(currentTrafficLightColor,"Red"))
+                *currentTrafficLightColor="Red";
             if(*command==Stop){
 
                 puts("Yellow: Stop");
@@ -69,7 +75,8 @@ void trafficLight(TrafficLightState* state, Command* command, char* currentTraff
             }
             break;
         case BlinkingGreen:
-            if(*currentTrafficLightColor!="Yellow")*currentTrafficLightColor="Yellow";
+            if(!strcmp(currentTrafficLightColor,"Yellow"))
+                *currentTrafficLightColor="Yellow";
             if(*command==PrepareToStop){
 
                 puts("BlinkingGreen: PrepareToStop");
@@ -80,7 +87,9 @@ void trafficLight(TrafficLightState* state, Command* command, char* currentTraff
             }
             break;
         case BlinkingYellow:
-            if(*currentTrafficLightColor!="Red")*currentTrafficLightColor="Red";
+            if(strcmp(currentTrafficLightColor,"Red")) {
+                strcpy(currentTrafficLightColor, "Red");
+            }
             if(*command==Idle){
                 
                 puts("BlinkingYellow: Idle");
@@ -91,7 +100,7 @@ void trafficLight(TrafficLightState* state, Command* command, char* currentTraff
             }
             break;
         default:
-            if(*currentTrafficLightColor!="BlinkingYellow")*currentTrafficLightColor="BlinkingYellow";
+            if(!strcmp(currentTrafficLightColor,"BlinkingYellow"))*currentTrafficLightColor="BlinkingYellow";
             puts("Invalid state error!");
             _flushall();
 
@@ -100,7 +109,7 @@ void trafficLight(TrafficLightState* state, Command* command, char* currentTraff
     }
 }
 
-void nextState(TrafficLightState* state, Command *command){
+void nextState(TrafficLightState* state, Command *command) {
     switch(*state) {
         case Red:
             if(*command==Wait){
@@ -152,8 +161,10 @@ int main(void) {
     int x=0;
     TrafficLightState tls=BlinkingYellow;
     Command com=Idle;
-    char* currentColor="off";
-    while(x<20){
+    char *currentColor=(char *) malloc(100);
+    strcpy(currentColor,"Off");
+    while(x<6){
+        puts(currentColor); _flushall();
         trafficLight(&tls, &com, currentColor);
         x++;
     }
