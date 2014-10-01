@@ -9,30 +9,11 @@
 \usepackage{authoraftertitle}
 \usepackage[final]{graphicx}
 \DeclareGraphicsExtensions{.pdf,.png,.jpg}
-\usepackage{listings}
 \usepackage{color}
 
 \definecolor{dkgreen}{rgb}{0,0.6,0}
 \definecolor{gray}{rgb}{0.5,0.5,0.5}
 \definecolor{mauve}{rgb}{0.58,0,0.82}
-
-\lstset{frame=tb,
-	language=C,
-	aboveskip=3mm,
-	belowskip=3mm,
-	showstringspaces=false,
-	columns=flexible,
-	basicstyle={\small\ttfamily},
-	numbers=none,
-	numberstyle=\tiny\color{gray},
-	keywordstyle=\color{blue},
-	commentstyle=\color{dkgreen},
-	stringstyle=\color{mauve},
-	breaklines=true,
-	breakatwhitespace=true
-	tabsize=3
-}
-
 
 \date{29.09.2014}
 \author{Ari Ayvazyan}
@@ -60,15 +41,59 @@ Don't forget to document the differences (advantages/disadvantages) in your prot
 Umzusetzen sind folgende 5 State Machine Patterns:
 \newline
 \begin{enumerate}
-	\item StateCentric
+	\item State Centric \newline
+	Hier steht der Status im Vordergrund, es wird erst auf den Status geprüft und anschließend gecheckt welches Kommando zu diesem Status ausgeführt werden soll.
+	\begin{verbatim}
+
+	void trafficLight(TrafficLightState* state, Command *command) {
+		switch(*state) {
+			case Red:
+			if(*command==Wait){
+				
+	\end{verbatim}
+	\item State Centric Hidden \newline
+	Hier steht ebenfalls der Status im Vordergrund, es wird erst auf den Status geprüft, dieser wird auch gesetzt und anschließend gecheckt welches Kommando zu diesem Status ausgeführt werden soll um Letztendlich via Separater Methode zu prüfen was als nächstes getan werden soll.  
+	\begin{verbatim}
 	
-	\item StateCentricHidden
+	switch(*state) {
+	case Red:
+	if(strcmp(currentTrafficLightColor,"Red")!=0) {
+	strcpy(currentTrafficLightColor, "Red");
+	outTrC(Red);
+	}
+	if(*command==Wait){
 	
-	\item EventCentric
+	\end{verbatim}
+	\item Event Centric \newline
+	Hier steht das Kommando im vordergrund, je nach Kommando wird anschließend auf den Status geprüft und dementsprechend gehandelt.
+	\begin{verbatim}
+	switch(*command) {
+	case Standby:
+	if(*state==RedYellow){
+	strcpy(currentTrafficLightColor, "RedYellow");
+	outTrC(RedYellow);
+	Sleep(SLEEP_TIME);
+	NEXTSTATE;
+	}
+	\end{verbatim}
 	
-	\item StatePattern
+	\item State Pattern \newline
+	Hierbei handelt es sich um eine Objektorientierte Variante der State Machine.\newline
+	Das State Objekt besitzt folgende Funktionen:\newline
+	\begin{verbatim}
+	Enter wird zu beginn eines states ausgeführt
 	
-	\item TableDriven
+	Exit wird beim verlassen eines states ausgeführt
+	
+	EventGo verarbeitet das go event
+	
+	EventStop verarbeitet das stop event
+	
+	Housekeeping prüft auf änderungen
+	
+	\end{verbatim}
+	
+	\item Table Driven \newline
 	
 \end{enumerate}
 
