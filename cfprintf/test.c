@@ -1,13 +1,14 @@
 #include "cfprintf.h"
+#include "../StateMachines/TrafficLightState.h"
+#include "../functions/outputTrafficLightColor.h"
 
 int main(int argc, char **argv) {
-    cfprintf(stderr,
-            "yellowblue{Yellow on Blue}\n"
-                    "redgreen{Red on Green}\n"
-                    "blueyellow{Blue on Yellow}\n"
-                    "bluewhite{Blue on White}\n"
-                    "blackwhite{Black on White}\n"
-                    "yellowred{Yellow on Red}\n"
-                    "redteal{Red on Teal}\n");
+    outTrC(Red);
+    outTrC(RedYellow);
+    outTrC(Yellow);
+    outTrC(Green);
+    outTrC(BlinkingGreen);
+    outTrC(BlinkingYellow);
+    outTrC(Off);
     return 0;
 }
