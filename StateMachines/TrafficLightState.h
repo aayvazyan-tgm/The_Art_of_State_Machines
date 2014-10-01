@@ -1,1 +1,1 @@
-typedef enum _TrafficLightState { Red, RedYellow, Yellow, Green, BlinkingGreen, BlinkingYellow} TrafficLightState;
+typedef enum _TrafficLightState { Red, RedYellow, Yellow, Green, BlinkingGreen, BlinkingYellow, Off} TrafficLightState;
