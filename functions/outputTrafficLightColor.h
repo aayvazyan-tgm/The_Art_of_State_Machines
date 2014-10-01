@@ -1,0 +1,1 @@
+void outTrC(TrafficLightState tf);
