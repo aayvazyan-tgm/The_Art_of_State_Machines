@@ -12,7 +12,7 @@
 typedef enum _TrafficLightState { Red, RedYellow, Yellow, Green, BlinkingGreen, BlinkingYellow} TrafficLightState;
 typedef enum _Command { Standby,Wait,Idle,Reset,Go,Stop,PrepareToStop,Error} Command;
 #define SLEEP_TIME 1000
-#define NEXTSTATE nextState(&state, &command)
+#define NEXTSTATE nextState(state, command)
 
 void nextState(TrafficLightState* state, Command *command);
 
@@ -165,8 +165,15 @@ int main(void) {
     Command com=Idle;
     char *currentColor=(char *) malloc(100);
     strcpy(currentColor,"Off");
-    while(x<6){
-        puts(currentColor); _flushall();
+    while(x<15){
+        char *displayColor=(char *) malloc(100);
+
+        strcpy(displayColor,"The traffic light shows: ");
+        strcat(displayColor,currentColor);
+        puts(displayColor); _flushall();
+
+        free(displayColor);
+
         trafficLight(&tls, &com, currentColor);
         x++;
     }
