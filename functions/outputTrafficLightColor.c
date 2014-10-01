@@ -27,5 +27,4 @@ void outTrC(TrafficLightState tf) {
             cfprintf(stdout, "blackwhite{Red}|" "|blackwhite{Yellow}|" "|blackwhite{Green}\n");
             break;
     }
-    return 0;
 }
