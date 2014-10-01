@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "TrafficLightState.h"
 #include "Commands.h"
+#include "../functions/outputTrafficLightColor.h"
 
 #ifdef _WIN32
 #include <windows.h>
@@ -18,6 +19,7 @@ void trafficLight(TrafficLightState* state, Command *command) {
         case Red:
             if(*command==Wait){
                 puts("Red: Wait");
+                outTrC(Red);
                 _flushall();
                 Sleep(SLEEP_TIME);
                 *state=RedYellow;
@@ -25,6 +27,7 @@ void trafficLight(TrafficLightState* state, Command *command) {
             }
             if(*command==Reset){
                 puts("Red: Reset");
+                outTrC(Red);
                 _flushall();
                 Sleep(SLEEP_TIME);
                 *state=RedYellow;
@@ -34,6 +37,7 @@ void trafficLight(TrafficLightState* state, Command *command) {
         case Green:
             if(*command==Go){
                 puts("Green: Go");
+                outTrC(Green);
                 _flushall();
                 Sleep(SLEEP_TIME);
                 *state=BlinkingGreen;
@@ -43,6 +47,7 @@ void trafficLight(TrafficLightState* state, Command *command) {
         case RedYellow:
             if(*command==Standby){
                 puts("RedYellow: Standby");
+                outTrC(RedYellow);
                 _flushall();
                 Sleep(SLEEP_TIME);
                 *state=Green;
@@ -52,6 +57,7 @@ void trafficLight(TrafficLightState* state, Command *command) {
         case Yellow:
             if(*command==Stop){
                 puts("Yellow: Stop");
+                outTrC(Yellow);
                 _flushall();
                 Sleep(SLEEP_TIME);
                 *state=Red;
@@ -61,6 +67,7 @@ void trafficLight(TrafficLightState* state, Command *command) {
         case BlinkingGreen:
             if(*command==PrepareToStop){
                 puts("BlinkingGreen: PrepareToStop");
+                outTrC(BlinkingGreen);
                 _flushall();
                 Sleep(SLEEP_TIME);
                 *state=Yellow;
@@ -70,6 +77,7 @@ void trafficLight(TrafficLightState* state, Command *command) {
         case BlinkingYellow:
             if(*command==Idle){
                 puts("BlinkingYellow: Idle");
+                outTrC(BlinkingYellow);
                 _flushall();
                 Sleep(SLEEP_TIME);
                 *state=Red;
@@ -77,6 +85,7 @@ void trafficLight(TrafficLightState* state, Command *command) {
             }
             if(*command==Error){
                 puts("BlinkingYellow: Error");
+                outTrC(BlinkingYellow);
                 _flushall();
                 Sleep(SLEEP_TIME);
                 *state=Red;
@@ -85,6 +94,7 @@ void trafficLight(TrafficLightState* state, Command *command) {
             break;
         default:
             puts("Invalid state error!");
+            outTrC(Off);
             _flushall();
             *state=BlinkingYellow;
             *command=Error;
