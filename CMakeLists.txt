@@ -1,11 +1,11 @@
 cmake_minimum_required(VERSION 2.8.4)
 project(States)
-set(GLOBAL_LIBS cfprintf//cfprintf.c)
-set(SOURCE_FILESStateCentric StateCentricStateMachine.c)
-set(SOURCE_FILESStateCentricHidden StateCentricHiddenTransactionsStateMachine.c)
-set(SOURCE_FILESEventCentric EventCentricStateMachine.c)
-set(SOURCE_FILESStatePattern StatePatternStateMachine.c)
-set(SOURCE_FILESTableDriven TableDrivenStateMachine.c)
+set(GLOBAL_LIBS cfprintf//cfprintf.c functions//outputTrafficLightColor.c)
+set(SOURCE_FILESStateCentric StateMachines//StateCentricStateMachine.c)
+set(SOURCE_FILESStateCentricHidden StateMachines//StateCentricHiddenTransactionsStateMachine.c)
+set(SOURCE_FILESEventCentric StateMachines//EventCentricStateMachine.c)
+set(SOURCE_FILESStatePattern StateMachines//StatePatternStateMachine.c)
+set(SOURCE_FILESTableDriven StateMachines//TableDrivenStateMachine.c)
 
 
 add_executable(StateCentric ${GLOBAL_LIBS} ${SOURCE_FILESStateCentric})
@@ -13,3 +13,4 @@ add_executable(StateCentricHidden ${GLOBAL_LIBS} ${SOURCE_FILESStateCentricHidde
 add_executable(EventCentric ${GLOBAL_LIBS} ${SOURCE_FILESEventCentric})
 add_executable(StatePattern ${GLOBAL_LIBS} ${SOURCE_FILESStatePattern})
 add_executable(TableDriven ${GLOBAL_LIBS} ${SOURCE_FILESTableDriven})
+#add_executable(Testc ${GLOBAL_LIBS} cfprintf//test.c)
